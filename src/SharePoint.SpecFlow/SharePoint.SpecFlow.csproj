@@ -37,6 +37,7 @@
     <Reference Include="Microsoft.SharePoint.Client.Taxonomy, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint.Client.UserProfiles, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint.Client.WorkflowServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ListTemplateTypeExtensions.cs" />
+    <Compile Include="FileGivens.cs" />
+    <Compile Include="FileThens.cs" />
     <Compile Include="ListGivens.cs" />
     <Compile Include="Exceptions\SharePointSpecFlowException.cs" />
     <Compile Include="Extensions\ScenarioContextExtensions.cs" />

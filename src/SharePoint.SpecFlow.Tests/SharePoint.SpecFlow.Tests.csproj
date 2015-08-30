@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileGivenTests.cs" />
     <Compile Include="ListGivenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
