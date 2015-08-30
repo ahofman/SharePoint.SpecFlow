@@ -49,7 +49,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentLibraryGivens.cs" />
+    <Compile Include="Extensions\ListTemplateTypeExtensions.cs" />
+    <Compile Include="ListGivens.cs" />
+    <Compile Include="Exceptions\SharePointSpecFlowException.cs" />
     <Compile Include="Extensions\ScenarioContextExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

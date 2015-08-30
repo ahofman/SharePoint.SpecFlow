@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SharePoint.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,16 @@ namespace SharePoint.SpecFlow
         {
             sc["CurrentWebUri"] = webUri;
         }
+
+        public static List GetList(this ScenarioContext sc)
+        {
+            return sc["CurrentList"] as List;
+        }
+
+        public static void SetList(this ScenarioContext sc, List list)
+        {
+            sc["CurrentList"] = list;
+        }
+
     }
 }
