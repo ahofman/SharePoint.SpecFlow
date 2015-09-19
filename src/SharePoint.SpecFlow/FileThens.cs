@@ -38,7 +38,5 @@ namespace SharePoint.SpecFlow
 
             Assert.AreEqual(expectedContents, actualString);
         }
-
-        
     }
 }

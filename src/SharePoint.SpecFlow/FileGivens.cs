@@ -24,6 +24,8 @@ namespace SharePoint.SpecFlow
             var rawContents = Encoding.Default.GetBytes(contents);
 
             File.SaveBinaryDirect(cc, url, new System.IO.MemoryStream(rawContents), true);
+
+            Context.LastFileServerRelativeUrl = url;
         }
     }
 }

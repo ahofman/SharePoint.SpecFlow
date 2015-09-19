@@ -11,5 +11,7 @@ namespace SharePoint.SpecFlow
         public Uri SiteUri { get; set; }
 
         public string LastListTitle { get; set; }
+
+        public string LastFileServerRelativeUrl { get; set; }
     }
 }

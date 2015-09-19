@@ -58,6 +58,7 @@
     <Compile Include="Extensions\ListTemplateTypeExtensions.cs" />
     <Compile Include="FileGivens.cs" />
     <Compile Include="FileThens.cs" />
+    <Compile Include="FileWhens.cs" />
     <Compile Include="ListGivens.cs" />
     <Compile Include="Exceptions\SharePointSpecFlowException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

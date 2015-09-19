@@ -133,6 +133,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 15
  testRunner.And("there is a file with contents \"abc\" at server relative url \"/450_DocLib2/450_DocS" +
                     "etB/450_blah2.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 16
+ testRunner.When("the file is copied to \"/450_DocLib1/450_DocSetA/a_copy.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             this.ScenarioCleanup();
         }
