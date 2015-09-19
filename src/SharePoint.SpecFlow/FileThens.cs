@@ -10,23 +10,17 @@ using TechTalk.SpecFlow;
 namespace SharePoint.SpecFlow
 {
     [Binding]
-    public class FileThens
+    public class FileThens : BindingBase
     {
-        public FileThens()
-            : this( ScenarioContext.Current.GetWebUri() )
+        public FileThens(Context ctx)
+            : base(ctx)
         {
-
         }
 
-        public FileThens(Uri currentWebUri)
-        {
-            _currentWebUri = currentWebUri;
-        }
-
-        [Then("the file at server relative url \"(.*?)\" should have the contents \"(.*?)\"")]
+        [Then("the file at server relative url \"([^\"]*)\" should have the contents \"([^\"]*)\"")]
         public void TheFileContentsEqual(string url, string expectedContents)
         {
-            var cc = new ClientContext(_currentWebUri);
+            var cc = new ClientContext(Context.SiteUri);
             var fi = File.OpenBinaryDirect(cc, url);
             var ms = new System.IO.MemoryStream();
 
@@ -45,6 +39,6 @@ namespace SharePoint.SpecFlow
             Assert.AreEqual(expectedContents, actualString);
         }
 
-        private Uri _currentWebUri;
+        
     }
 }

@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ClassLibrary1" GeneratedClassName="Sample">
+  <Profiles />
+  <Settings>
+    <Setting Name="SiteUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://rp2013-3:113</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -11,24 +11,26 @@ using TechTalk.SpecFlow;
 namespace SharePoint.SpecFlow
 {
     [Binding]
-    public class ListGivens
+    public class ListGivens : BindingBase
     {
-        public ListGivens()
-            : this(ScenarioContext.Current.GetWebUri())
+        public ListGivens(Context context)
+            : base(context)
         {
         }
 
-        public ListGivens(Uri currentWebUri)
+        [Given("there is a (.*?) list called \"([^\"]*)\" in site \"(http[^\"]*)\"")]
+        public void GivenThereIsListCalled(ListTemplateType listTemplateType, string listTitle, string siteUri)
         {
-            _currentWebUri = currentWebUri;
+            Context.SiteUri = new Uri(siteUri);
+            GivenThereIsListCalled(listTemplateType, listTitle);
         }
 
-        [Given("there is a (.*?) list called \"(.*?)\"")]
+        [Given("there is a (.*?) list called \"([^\"]*)\"")]
         public void GivenThereIsListCalled(ListTemplateType listTemplateType, string listTitle)
         {
             var listTemplateBaseType = listTemplateType.GetBaseType();
 
-            using (var cc = new ClientContext(_currentWebUri))
+            using (var cc = new ClientContext(Context.SiteUri))
             {
                 var list = cc.Web.Lists.GetByTitle(listTitle);
                 cc.Load(list);
@@ -62,25 +64,22 @@ namespace SharePoint.SpecFlow
                     cc.ExecuteQuery();
                 }
 
-                if (ScenarioContext.Current != null)
-                {
-                    ScenarioContext.Current.SetList(list);
-                }
+                Context.LastListTitle = listTitle;
             }
         }
 
-        [Given("the list \"(.*?)\" has a Document Set called \"(.*?)\"")]
-        public void GivenTheListHasADocumentSetCalled(string listTitle, string docSetTitle)
+        [Given("the list has a Document Set called \"([^\"]*)\"")]
+        public void GivenTheListHasADocumentSetCalled(string docSetTitle)
         {
             // Ensure the SharePoint Server Publishing Infrastructure feature is enabled
-            var siteGivens = new SiteGivens(_currentWebUri);
+            var siteGivens = new SiteGivens(Context);
             siteGivens.GivenTheCurrentSiteHasTheFeatureEnabled("f6924d36-2fa8-4f0b-b16d-06b7250180fa");
 
-            string documentSetContentType = "0x0120D52000D0EE7F289A8729498B34F1E26F5E988A";
+            string documentSetContentType = "0x0120D520";
 
-            using (var cc = new ClientContext(_currentWebUri))
+            using (var cc = new ClientContext(Context.SiteUri))
             {
-                var list = cc.Web.Lists.GetByTitle(listTitle);
+                var list = cc.Web.Lists.GetByTitle(Context.LastListTitle);
                 cc.Load(list);
                 cc.Load(list.RootFolder);
                 cc.Load(list.RootFolder.Folders);
@@ -97,11 +96,17 @@ namespace SharePoint.SpecFlow
                 else
                 {
                     list.ContentTypesEnabled = true;
+                    list.Update();
+                    cc.ExecuteQuery();
 
-                    var ct = list.ContentTypes.SingleOrDefault(x => x.Id.StringValue == documentSetContentType);
+                    var ct = list.ContentTypes.SingleOrDefault(x => x.Id.StringValue.StartsWith(documentSetContentType));
                     if (ct == null)
                     {
-                        ct = list.ContentTypes.AddExistingContentType(cc.Web.ContentTypes.GetById(documentSetContentType));
+                        var docSetContentType = cc.Web.ContentTypes.GetById(documentSetContentType);
+                        cc.Load(docSetContentType);
+                        cc.ExecuteQuery();
+                        ct = list.ContentTypes.AddExistingContentType(docSetContentType);
+                        cc.Load(ct);
                         cc.ExecuteQuery();
                     }
 
@@ -112,19 +117,28 @@ namespace SharePoint.SpecFlow
             }
         }
 
-        [Given("the list \"(.*?)\" has a workflow associated")]
-        public void GivenTheListHasAWorkflowAssociated(string listTitle, 
-            Guid workflowId, 
-            string workflowAssociationName, 
+        [Given("the list has a workflow associated")]
+        public void GivenTheListHasAWorkflowAssociated(
+            /*Guid workflowId,
+            string workflowAssociationName,
             string workflowHistoryListName,
             string workflowTasksListName,
             string associationData,
             bool autoStartChange,
-            bool autoStartCreate)
+            bool autoStartCreate*/
+            Table table)
         {
-            using (var cc = new ClientContext(_currentWebUri))
+            var workflowId = Guid.Parse( table.Rows[0]["WorkflowId"].ToString() );
+            var workflowAssociationName = table.Rows[0]["WorkflowAssociationName"];
+            var workflowHistoryListName = table.Rows[0]["WorkflowHistoryListName"];
+            var workflowTasksListName = table.Rows[0]["WorkflowTasksListName"];
+            var associationData = table.Rows[0]["AssociationData"];
+            var autoStartChange = Boolean.Parse(table.Rows[0]["AutoStartChange"]);
+            var autoStartCreate = Boolean.Parse(table.Rows[0]["AutoStartCreate"]);
+
+            using (var cc = new ClientContext(Context.SiteUri))
             {
-                var list = cc.Web.Lists.GetByTitle(listTitle);
+                var list = cc.Web.Lists.GetByTitle(Context.LastListTitle);
                 var workflowHistoryList = cc.Web.Lists.GetByTitle(workflowHistoryListName);
                 var workflowTasksList = cc.Web.Lists.GetByTitle(workflowTasksListName);
                 cc.Load(list);
@@ -137,7 +151,6 @@ namespace SharePoint.SpecFlow
                 var assoc = list.WorkflowAssociations.SingleOrDefault(x => x.Name == workflowAssociationName);
                 if (assoc == null)
                 {
-
                     var waci = new WorkflowAssociationCreationInformation();
                     waci.Template = cc.Web.WorkflowTemplates.Single(x => x.Id == workflowId);
                     waci.Name = workflowAssociationName;
@@ -155,7 +168,5 @@ namespace SharePoint.SpecFlow
                 cc.ExecuteQuery();
             }
         }
-
-        private Uri _currentWebUri;
     }
 }

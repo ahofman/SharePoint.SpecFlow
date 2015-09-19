@@ -9,24 +9,17 @@ using TechTalk.SpecFlow;
 namespace SharePoint.SpecFlow
 {
     [Binding]
-    public class SiteGivens
+    public class SiteGivens : BindingBase
     {
-        public SiteGivens()
-            : this( ScenarioContext.Current.GetWebUri() )
+        public SiteGivens(Context ctx)
+            : base(ctx)
         {
-
         }
 
-        public SiteGivens(Uri currentWebUri)
-        {
-            _currentWebUri = currentWebUri;
-        }
-
-
-        [Given("the current site has the \"(.*?)\" feature enabled")]
+        [Given("the current site has the \"([^\"]*)\" feature enabled")]
         public void GivenTheCurrentSiteHasTheFeatureEnabled(string featureGuid)
         {
-            using (var cc = new ClientContext(_currentWebUri))
+            using (var cc = new ClientContext(Context.SiteUri))
             {
                 var featureId = Guid.Parse(featureGuid);
      
@@ -41,9 +34,6 @@ namespace SharePoint.SpecFlow
                     cc.ExecuteQuery();
                 }
             }
-
         }
-
-        private Uri _currentWebUri;
     }
 }
