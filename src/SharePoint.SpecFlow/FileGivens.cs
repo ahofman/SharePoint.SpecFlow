@@ -19,11 +19,12 @@ namespace SharePoint.SpecFlow
         [Given("there is a file with contents \"([^\"]*)\" at server relative url \"([^\"]*)\"")]
         public void GivenThereIsAFileWithUrl(string contents, string url)
         {
-            var cc = new ClientContext(Context.SiteUri);
+            using (var cc = Context.CreateClientContext())
+            {
+                var rawContents = Encoding.Default.GetBytes(contents);
 
-            var rawContents = Encoding.Default.GetBytes(contents);
-
-            File.SaveBinaryDirect(cc, url, new System.IO.MemoryStream(rawContents), true);
+                File.SaveBinaryDirect(cc, url, new System.IO.MemoryStream(rawContents), true);
+            }
 
             Context.LastFileServerRelativeUrl = url;
         }

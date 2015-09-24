@@ -10,7 +10,7 @@ namespace SharePoint.SpecFlow.Tests
     [TestClass]
     public class SiteGivenTests
     {
-        Context _ctx = new Context { SiteUri = new Uri("http://rp2013-3:113") };
+        Context _ctx = new Context { SiteUri = new Uri(TestsSettings.Default.SiteCollectionUrl) };
 
         [TestMethod]
         public void FeatureActivationIsIdemptotent()

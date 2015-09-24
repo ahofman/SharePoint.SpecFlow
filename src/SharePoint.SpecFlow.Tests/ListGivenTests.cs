@@ -12,7 +12,7 @@ namespace SharePoint.SpecFlow.Tests
     [TestClass]
     public class ListGivenTests
     {
-        Context _ctx = new Context { SiteUri = new Uri("http://rp2013-3:113") };
+        Context _ctx = new Context { SiteUri = new Uri(TestsSettings.Default.SiteCollectionUrl) };
  
         [TestMethod]
         public void ListCreationIsIdempotent()
@@ -54,6 +54,7 @@ namespace SharePoint.SpecFlow.Tests
             Assert.IsTrue(thrown);
         }
 
+#if SHAREPOINT_2013
         [TestMethod]
         public void DocumentSetCreationIsIdempotent()
         {
@@ -64,5 +65,6 @@ namespace SharePoint.SpecFlow.Tests
 
             sut.GivenTheListHasADocumentSetCalled("BDLBS_DSB");
         }
+#endif
     }
 }

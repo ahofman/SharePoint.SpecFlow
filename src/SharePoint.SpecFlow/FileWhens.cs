@@ -19,7 +19,7 @@ namespace SharePoint.SpecFlow
         [When("the file is copied to \"([^\"]*)\"")]
         public void TheFileIsCopiedTo(string newLocation)
         {
-            using (var cc = new ClientContext(Context.SiteUri))
+            using (var cc = Context.CreateClientContext())
             {
                 var file = cc.Web.GetFileByServerRelativeUrl(Context.LastFileServerRelativeUrl);
 
@@ -35,7 +35,7 @@ namespace SharePoint.SpecFlow
         [When("the file is moved to \"([^\"]*)\"")]
         public void TheFileIsMovedTo(string newLocation)
         {
-            using (var cc = new ClientContext(Context.SiteUri))
+            using (var cc = Context.CreateClientContext())
             {
                 var file = cc.Web.GetFileByServerRelativeUrl(Context.LastFileServerRelativeUrl);
 

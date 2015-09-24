@@ -19,7 +19,7 @@ namespace SharePoint.SpecFlow
         [Given("the current site has the \"([^\"]*)\" feature enabled")]
         public void GivenTheCurrentSiteHasTheFeatureEnabled(string featureGuid)
         {
-            using (var cc = new ClientContext(Context.SiteUri))
+            using (var cc = Context.CreateClientContext())
             {
                 var featureId = Guid.Parse(featureGuid);
      

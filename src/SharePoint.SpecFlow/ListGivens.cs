@@ -1,12 +1,12 @@
 ﻿using Microsoft.SharePoint.Client;
-using Microsoft.SharePoint.Client.DocumentSet;
 using Microsoft.SharePoint.Client.Workflow;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+
+#if SHAREPOINT_2013
+using Microsoft.SharePoint.Client.DocumentSet;
+#endif
 
 namespace SharePoint.SpecFlow
 {
@@ -30,7 +30,7 @@ namespace SharePoint.SpecFlow
         {
             var listTemplateBaseType = listTemplateType.GetBaseType();
 
-            using (var cc = new ClientContext(Context.SiteUri))
+            using (var cc = Context.CreateClientContext())
             {
                 var list = cc.Web.Lists.GetByTitle(listTitle);
                 cc.Load(list);
@@ -68,6 +68,7 @@ namespace SharePoint.SpecFlow
             }
         }
 
+#if SHAREPOINT_2013
         [Given("the list has a Document Set called \"([^\"]*)\"")]
         public void GivenTheListHasADocumentSetCalled(string docSetTitle)
         {
@@ -77,7 +78,7 @@ namespace SharePoint.SpecFlow
 
             string documentSetContentType = "0x0120D520";
 
-            using (var cc = new ClientContext(Context.SiteUri))
+            using (var cc = Context.CreateClientContext())
             {
                 var list = cc.Web.Lists.GetByTitle(Context.LastListTitle);
                 cc.Load(list);
@@ -116,6 +117,7 @@ namespace SharePoint.SpecFlow
                 }
             }
         }
+#endif 
 
         [Given("the list has a workflow associated")]
         public void GivenTheListHasAWorkflowAssociated(
@@ -136,7 +138,7 @@ namespace SharePoint.SpecFlow
             var autoStartChange = Boolean.Parse(table.Rows[0]["AutoStartChange"]);
             var autoStartCreate = Boolean.Parse(table.Rows[0]["AutoStartCreate"]);
 
-            using (var cc = new ClientContext(Context.SiteUri))
+            using (var cc = Context.CreateClientContext())
             {
                 var list = cc.Web.Lists.GetByTitle(Context.LastListTitle);
                 var workflowHistoryList = cc.Web.Lists.GetByTitle(workflowHistoryListName);
