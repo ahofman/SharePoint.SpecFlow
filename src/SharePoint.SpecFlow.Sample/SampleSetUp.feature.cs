@@ -134,7 +134,9 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("there is a file with contents \"abc\" at server relative url \"/450_DocLib2/450_DocS" +
                     "etB/450_blah2.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
- testRunner.When("the file is copied to \"/450_DocLib1/450_DocSetA/a_copy.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("the file is copied to \"/450_DocLib1/450_DocSetA/another_copy.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.And("the list called \"RecordPointObjectQueue\" contains 0 items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

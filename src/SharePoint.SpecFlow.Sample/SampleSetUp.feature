@@ -13,4 +13,5 @@ Scenario: Some sample set up
 	| 79a21da3-a5ad-4b7e-b7f6-a28b85fa31eb | RP Submit Stub          | Workflow History        | Tasks                 | <SubmitWorkflowAssociationData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><WorkflowType>SubmitStub</WorkflowType></SubmitWorkflowAssociationData> | true            | true            |
 	And there is a file with contents "abc" at server relative url "/450_DocLib1/450_DocSetA/450_blah.txt"
 	And there is a file with contents "abc" at server relative url "/450_DocLib2/450_DocSetB/450_blah2.txt"
-	When the file is copied to "/450_DocLib1/450_DocSetA/a_copy.txt"
+	When the file is copied to "/450_DocLib1/450_DocSetA/another_copy.txt"
+	And the list called "RecordPointObjectQueue" contains 0 items

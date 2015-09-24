@@ -49,5 +49,7 @@ namespace SharePoint.SpecFlow
         public string LastListTitle { get; set; }
 
         public string LastFileServerRelativeUrl { get; set; }
+
+        public int TimeoutSeconds { get { return 60; } }
     }
 }

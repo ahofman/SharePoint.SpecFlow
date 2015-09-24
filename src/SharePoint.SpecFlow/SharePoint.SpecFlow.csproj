@@ -83,6 +83,7 @@
     <Compile Include="FileWhens.cs" />
     <Compile Include="ListGivens.cs" />
     <Compile Include="Exceptions\SharePointSpecFlowException.cs" />
+    <Compile Include="ListWhens.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteGivens.cs" />
   </ItemGroup>
