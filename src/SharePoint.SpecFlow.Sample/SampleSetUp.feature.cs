@@ -77,8 +77,8 @@ namespace SharePoint.SpecFlow.Sample
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4
- testRunner.Given("there is a DocumentLibrary list called \"450_DocLib1\" in site \"http://rp2013-3:113" +
-                    "\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("there is a DocumentLibrary list called \"952_DocLib1\" by user as_sitecoll in site " +
+                    "\"http://rp2013-3:113\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.And("the list has a Document Set called \"450_DocSetA\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -134,9 +134,9 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("there is a file with contents \"abc\" at server relative url \"/450_DocLib2/450_DocS" +
                     "etB/450_blah2.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
- testRunner.When("the file is copied to \"/450_DocLib1/450_DocSetA/another_copy.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("the file is checked out by user as_sitecoll", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 17
- testRunner.And("the list called \"RecordPointObjectQueue\" contains 0 items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("the file is copied to \"/450_DocLib1/450_DocSetA/another_copy.txt\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             this.ScenarioCleanup();
         }

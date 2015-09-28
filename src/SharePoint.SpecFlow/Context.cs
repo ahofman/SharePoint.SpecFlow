@@ -12,29 +12,38 @@ namespace SharePoint.SpecFlow
     {
         public Uri SiteUri { get; set; }
 
-        const string SPECFLOW_SHAREPOINT_USERNAME = "SPECFLOW_SHAREPOINT_USERNAME";
-
-        const string SPECFLOW_SHAREPOINT_PASSWORD = "SPECFLOW_SHAREPOINT_PASSWORD";
-
-        const string SPECFLOW_SHAREPOINT_DOMAIN = "SPECFLOW_SHAREPOINT_DOMAIN";
+        const string SHAREPOINT_SPECFLOW_CREDENTIAL_PREFIX = "SHAREPOINT_SPECFLOW_CREDENTIAL_";
 
         public ClientContext CreateClientContext()
         {
-            var userNameFromEnvironment = Environment.GetEnvironmentVariable(SPECFLOW_SHAREPOINT_USERNAME);
-            var passwordFromEnvironment = Environment.GetEnvironmentVariable(SPECFLOW_SHAREPOINT_PASSWORD);
-            var domainFromEnvironment = Environment.GetEnvironmentVariable(SPECFLOW_SHAREPOINT_DOMAIN);
-
             NetworkCredential credential = null;
 
-            if (!string.IsNullOrEmpty(userNameFromEnvironment) && !string.IsNullOrEmpty(passwordFromEnvironment))
+            if (!string.IsNullOrEmpty(LastUserName))
             {
-                if (string.IsNullOrEmpty(domainFromEnvironment))
+                var environmentVariableName = SHAREPOINT_SPECFLOW_CREDENTIAL_PREFIX + LastUserName;
+                var passwordFromEnvironment = Environment.GetEnvironmentVariable(environmentVariableName);
+                if (string.IsNullOrEmpty(passwordFromEnvironment))
                 {
-                    credential = new NetworkCredential(userNameFromEnvironment, passwordFromEnvironment);
+                    throw new SharePointSpecFlowException("No password supplied for user " + LastUserName + ". Please supply the password for this user in an environment variable called " + environmentVariableName);
+                }
+
+                var domain = string.Empty;
+
+                // determine the domain from the passed in username
+                var splitString = LastUserName.Split('/');
+                if (splitString.Length > 1)
+                {
+                    domain = splitString.First();
+                    LastUserName = splitString.Last();
+                }
+
+                if (string.IsNullOrEmpty(domain))
+                {
+                    credential = new NetworkCredential(LastUserName, passwordFromEnvironment);
                 }
                 else
                 {
-                    credential = new NetworkCredential(userNameFromEnvironment, passwordFromEnvironment, domainFromEnvironment);
+                    credential = new NetworkCredential(LastUserName, passwordFromEnvironment, domain);
                 }
             }
 
@@ -49,6 +58,8 @@ namespace SharePoint.SpecFlow
         public string LastListTitle { get; set; }
 
         public string LastFileServerRelativeUrl { get; set; }
+
+        public string LastUserName { get; set; }
 
         public int TimeoutSeconds { get { return 60; } }
     }

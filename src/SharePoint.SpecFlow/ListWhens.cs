@@ -14,6 +14,14 @@ namespace SharePoint.SpecFlow
         {
         }
 
+        [When("the list called \"([^\"]*)\" contains ([0123456789]+) items as user ([^ ]+)")]
+        public void WhenTheListCalledContainsItems(string listTitle, int expectedCount, string userName)
+        {
+            Context.LastListTitle = listTitle;
+            Context.LastUserName = userName;
+            WhenTheListContainsItems(expectedCount);
+        }
+
         [When("the list called \"([^\"]*)\" contains ([0123456789]+) items")]
         public void WhenTheListCalledContainsItems(string listTitle, int expectedCount)
         {
@@ -41,7 +49,7 @@ namespace SharePoint.SpecFlow
                     totalSecondsWaited++;
                 }
 
-                throw new SharePointSpecFlowException("Timeout");
+                throw new SharePointSpecFlowException("Timeout waiting for list " + Context.LastListTitle + " to contain " + expectedCount + " items.");
             }
         }
     }

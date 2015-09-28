@@ -18,10 +18,18 @@ namespace SharePoint.SpecFlow
         {
         }
 
-        [Given("there is a (.*?) list called \"([^\"]*)\" in site \"(http[^\"]*)\"")]
-        public void GivenThereIsListCalled(ListTemplateType listTemplateType, string listTitle, string siteUri)
+        [Given("there is a (.*?) list called \"([^\"]*)\" by user ([^ ]+) in site \"(http[^\"]*)\"")]
+        public void GivenThereIsListCalled(ListTemplateType listTemplateType, string listTitle, string userName, string siteUri)
         {
             Context.SiteUri = new Uri(siteUri);
+            Context.LastUserName = userName;
+            GivenThereIsListCalled(listTemplateType, listTitle);
+        }
+
+        [Given("there is a (.*?) list called \"([^\"]*)\" by user ([^ ]+)")]
+        public void GivenThereIsListCalled(ListTemplateType listTemplateType, string listTitle, string userName)
+        {
+            Context.LastUserName = userName;
             GivenThereIsListCalled(listTemplateType, listTitle);
         }
 
@@ -69,6 +77,13 @@ namespace SharePoint.SpecFlow
         }
 
 #if SHAREPOINT_2013
+        [Given("the list has a Document Set called \"([^\"]*)\" by user ([^ ]+)")]
+        public void GivenTheListHasADocumentSetCalled(string docSetTitle, string userName)
+        {
+            Context.LastUserName = userName;
+            GivenTheListHasADocumentSetCalled(docSetTitle);
+        }
+
         [Given("the list has a Document Set called \"([^\"]*)\"")]
         public void GivenTheListHasADocumentSetCalled(string docSetTitle)
         {
@@ -118,6 +133,13 @@ namespace SharePoint.SpecFlow
             }
         }
 #endif 
+
+        [Given("the list has a workflow associated by user ([^ ]+)")]
+        public void GivenTheListHasAWorkflowAssociated(string userName, Table table)
+        {
+            Context.LastUserName = userName;
+            GivenTheListHasAWorkflowAssociated(table);
+        }
 
         [Given("the list has a workflow associated")]
         public void GivenTheListHasAWorkflowAssociated(

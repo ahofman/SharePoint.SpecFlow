@@ -16,6 +16,13 @@ namespace SharePoint.SpecFlow
         {
         }
 
+        [Given("the current site has the \"([^\"]*)\" feature enabled by user ([^ ]+)")]
+        public void GivenTheCurrentSiteHasTheFeatureEnabled(string featureGuid, string userName)
+        {
+            Context.LastUserName = userName;
+            GivenTheCurrentSiteHasTheFeatureEnabled(featureGuid);
+        }
+
         [Given("the current site has the \"([^\"]*)\" feature enabled")]
         public void GivenTheCurrentSiteHasTheFeatureEnabled(string featureGuid)
         {

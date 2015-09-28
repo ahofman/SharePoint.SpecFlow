@@ -16,6 +16,13 @@ namespace SharePoint.SpecFlow
         {
         }
 
+        [When("the file is copied to \"([^\"]*)\" by user ([^ ]+)")]
+        public void TheFileIsCopiedTo(string newLocation, string userName)
+        {
+            Context.LastUserName = userName;
+            TheFileIsCopiedTo(newLocation);
+        }
+
         [When("the file is copied to \"([^\"]*)\"")]
         public void TheFileIsCopiedTo(string newLocation)
         {
@@ -30,6 +37,13 @@ namespace SharePoint.SpecFlow
 
                 Context.LastFileServerRelativeUrl = newLocation;
             }
+        }
+
+        [When("the file is moved to \"([^\"]*)\" by user ([^ ]+)")]
+        public void TheFileIsMovedTo(string newLocation, string userName)
+        {
+            Context.LastUserName = userName;
+            TheFileIsMovedTo(newLocation);
         }
 
         [When("the file is moved to \"([^\"]*)\"")]
